@@ -1,0 +1,52 @@
+<!-- Listing Products -->
+        <h2>&nbsp;</h2>
+        <div>
+            <% if current_user.try(:admin?) %>
+                <br />
+                <%= link_to 'New Product', new_product_path,  class: "yellow-button" %>
+                <br />
+                <br />
+            <% end %>
+            
+            <% if @products.size == 0 %>
+			<p>No product found.</p>
+            <%else%>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Image</th>
+                        <th>Category</th>
+                        <th>Animal</th>
+                        <th>Price</th>
+                        <th>Description</th>
+                        <th colspan="3"></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <% @products.each do |product| %>
+                        <tr>
+                            <td><%= product.name %></td>
+                            <td><%= image_tag product.image.url(:thumb) %></td>
+                            <td><%= Category.find(product.category_id).name %></td>
+                            <td><%= Animal.find(product.animal_id).name %></td>
+                            <td><%= product.price %></td>
+                            <!-- display only up to 20 characters for the product description -->
+                            <td><%= product.description[0..20] %></td>
+                            <td colspan=4 style="text-align:center;"><%= link_to 'Show', product,  class: "yellow-button" %><br />
+                            <% if current_user.try(:admin?) %>
+                                    <%= link_to 'Edit', edit_product_path(product),  class: "yellow-button" %>
+                                    <br />
+                                    <%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' } , class: "yellow-button" %>
+                            <% else %>
+                                    <div class="yellow-button"><%= link_to "Add to Cart", :controller => :cart, :action=> :add, :id => product %></div>
+                            <% end %>
+                            </td>
+                        </tr>
+                    <% end %>
+                </tbody>
+            </table>
+			<% end %>
+            <br>
+        </div>

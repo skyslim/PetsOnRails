@@ -1,0 +1,55 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+
+
+#top-nav {
+    text-align:right;
+    padding:0px 5px;
+}
+
+span.yellow-button {
+}
+
+span.yellow-button a,
+div.yellow-button a,
+a.yellow-button {
+    padding:0px 5px;
+    display:inline-block;
+    text-align:center;
+    margin:2px;
+    min-width: 200px !important;
+    white-space: nowrap;
+    text-decoration:none;
+    font-weight:bold;
+    background:rgb(255, 186, 41);
+    color:black !important;
+}
+
+span.yellow-button a:hover,
+div.yellow-button a:hover,
+a.yellow-button:hover {
+    color:rgb(255, 186, 41) !important;
+    background:black !important;    
+}
+
+#messageboard .alert,
+#messageboard .notice {
+	text-align:right;
+}
+
+#messageboard .alert {
+	color:red;
+}

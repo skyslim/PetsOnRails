@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Pets on Rails</title>
+        <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+        <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+        <%= csrf_meta_tags %>
+    </head>
+    <body>
+       
+       
+       
+        <div id="top-nav"><!-- cart and account -->
+			<% if current_user.try(:admin?)%>
+            	<a href="/contacts">&#x2709;: <%= Contact.all.count %></a>
+            <% end %>
+            <%= link_to "Cart", cart_path, :class => 'navbar-link' %>
+            <%= render "cart/status" %>
+            <% if user_signed_in? %>
+                Logged in as <strong><%= current_user.email %></strong>.
+                <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %> |
+                <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
+            <% else %>
+                <%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %> |
+                <%= link_to "Login", new_user_session_path, :class => 'navbar-link'  %>
+            <% end %>
+       		<form method="get" action="/products" style="display:inline-block">
+        		<input type="text" name="keywords" value="<%= @safe_keywords %>" placeholder="Search products" />
+        		<button>Search</button>
+			</form>
+        </div>
+
+
+
+        <div id="header">
+            <a href="/" id="logo"><img src="/assets/logo.png" width="310" height="114" alt=""></a>
+            <ul class="navigation">
+                <li><a href="/">Home</a></li>
+                <li><a href="/products">Products</a></li>
+                <% if current_user.try(:admin?)%>
+                    <li><a href="/pages/admin">Admin</a></li>
+                <% end %>
+                <li><a href="/pages/aboutus">About us</a></li>
+                <li><a href="/pages/petguide">PetGuide</a></li>
+                <li><a href="/pages/contactus">Contact us</a></li>
+            </ul>
+        </div>
+		<div id="messageboard">
+			<p class="notice"><%= notice %></p>
+			<p class="alert"><%= alert %></p>
+		</div>        
+        <div id="body">
+			<% if current_page?(root_path) %>
+				<div class="banner">&nbsp;</div>
+			<% end %>
+			<div id="content">
+			<div class="content">
+			<%= yield %>        
+			</div>
+			<% if current_page?(root_path) ||  current_page?( pages_aboutus_path  ) %>
+		    	<div id="sidebar">
+		    <% else %>
+		    	<div id="sidebar" style="padding-top:150px;">
+		    <% end %>
+			<% if current_page?( pages_aboutus_path  ) %>
+		    
+				  <div class="connect">
+					<h2>Follow Us</h2>
+					<ul>
+					  <li><a class="facebook" >Facebook</a></li>
+					  <li><a class="subscribe" >Subscribe</a></li>
+					  <li><a class="twitter" >Twitter</a></li>
+					  <li><a class="flicker" >Flicker</a></li>
+					</ul>
+				  </div>
+				<% else %>		    
+				<div class="search">
+					<%= render 'searches/index' %>
+				</div>
+				<div class="section">
+					<ul class="navigation">
+						<li class="active"><a>Product per category</a></li>
+					</ul>
+				<div class="aside">
+					<div>
+						<div>
+							<ul>
+							<% Category.all.each do | category | %>
+							<li><a href="/products/?category_id=<%= category.id %>"><%= category.name %></a></li>
+							<% end %>
+							</ul>
+						</div>
+					</div>
+				</div>
+				</div>
+				<div class="section">
+					<ul class="navigation">
+						<li class="active"><a>Product per animal</a></li>
+					</ul>
+				<div class="aside">
+					<div>
+						<div>
+							<ul>
+							<% Animal.all.each do | animal | %>
+							<li><a href="/products/?animal_id=<%= animal.id %>"><%= animal.name %></a></li>
+							<% end %>
+							</ul>
+						</div>
+					</div>
+				</div>
+				</div>
+				
+
+				<% end %>
+			</div>
+		</div>
+		</div>
+        
+
+        <div class="footer" style="margin-top:10px;">
+        <% if current_page?(root_path) %>
+			  <div class="section">
+				<ul>
+				  <li> <img src="assets/friendly-pets.jpg" width="240" height="186" alt="">
+					<h2><a >Friendly Pets</a></h2>
+					<p> Lorem ipsum dolor sit amet, consectetuer adepiscing elit, sed diam nonummy nib. <!--a class="more" >Read More</a--> </p>
+				  </li>
+				  <li> <img src="assets/pet-lover2.jpg" width="240" height="186" alt="">
+					<h2><a >Meet Ups for Pet Lovers</a></h2>
+					<p> Lorem ipsum dolor sit amet, cons ectetuer adepis cing, sed diam euis. <!--a class="more" >Read More</a--> </p>
+				  </li>
+				  <li> <img src="assets/healthy-dog.jpg" width="240" height="186" alt="">
+					<h2><a >Keep them healthy</a></h2>
+					<p> Lorem ipsum dolor sit amet, consectetuer adepiscing elit, sed diam nonu mmy. <!--a class="more" >Read More</a--> </p>
+				  </li>
+				  <li>
+					<h2><a >Love...love...love...pets</a></h2>
+					<p> Lorem ipsum dolor sit amet, consectetuer adepiscing elit, sed diameusim. <!--a class="more" >Read More</a--> </p>
+					<img src="assets/pet-lover.jpg" width="240" height="186" alt=""> </li>
+				</ul>
+			  </div>
+		<% end %>
+        
+            <div id="footnote">
+                <div class="section">
+                    Copyright &copy; 2012 Company Name All rights reserved | Website Template By <a target="_blank" href="http://www.freewebsitetemplates.com/">freewebsitetemplates.com</a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

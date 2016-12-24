@@ -1,0 +1,39 @@
+
+<h1>Customers' message</h1>
+<% if @contacts.length == 0 %>
+<p>No message.</p>
+<% else %>
+<table>
+  <thead>
+    <tr>
+      <th>Email address</th>
+      <th>Fullname</th>
+      <th>Subject</th>
+      <th>Message</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @contacts.each do |contact| %>
+      <tr>
+       	<%
+			user_id = contact.user_id
+			user_email = if user_id != nil
+							User.find_by_id(user_id).email
+						 else
+							"nil"
+						 end
+		%>
+        <td><%= user_email %></td>
+        <td><%= contact.fullname %></td>
+        <td><%= contact.subject %></td>
+        <td><%= contact.message %></td>
+        <td><%= link_to 'Show', contact %></td>
+        <td><%= link_to 'Destroy', contact, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% end %>
+<br>

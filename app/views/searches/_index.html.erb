@@ -1,0 +1,53 @@
+<%
+# PRODUCTS ADVANCED SEARCH FORM
+# used with 'render'
+%>
+
+
+<%= form_tag("/products", method: "get") do %>
+
+<%= link_to "Reset", "/products", class: "form-reset" %>
+<%= submit_tag "Search" %>
+<%= text_field_tag :keywords, @safe_keywords %>
+<br/ >
+
+<%= label_tag :category_id, 'Categories :' %>
+<%= select_tag  :category_id, 
+                options_from_collection_for_select(
+					Category.all,
+					'id',
+					'name',
+					@safe_category_id),
+                include_blank: true %>
+<br/ >
+
+<%= label_tag :animal_id, 'Animals :' %>
+<%= select_tag  :animal_id,
+                options_from_collection_for_select(
+				    Animal.all,
+					'id',
+					'name',
+					@safe_animal_id), 
+				include_blank: true %>
+<br/ >
+       
+<%= label_tag :min_price, 'Min Price:' %>
+<%= number_field_tag :min_price, @safe_min_price, min: 0 %>
+<br/ >
+
+<%= label_tag :max_price, 'Max Price:' %>
+<%= number_field_tag :max_price, @safe_max_price, min: 0 %>
+<br />
+
+<%
+      @sort_by_options = [
+		  	["keywords (A to Z)", 0],
+		  	["keywords (Z to A)", 1],
+		  	["price (lowest to highest)", 2],
+		  	["price (highest to lowest)", 3]
+		  ]
+%>
+<%= label_tag :sort_by, 'Sort by:' %>
+<%= select_tag :sort_by, options_for_select(@sort_by_options, @safe_sort_by) %>
+
+<% end %>

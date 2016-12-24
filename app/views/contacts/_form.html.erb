@@ -1,0 +1,35 @@
+<%= form_for(@contact) do |f| %>
+  <% if @contact.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@contact.errors.count, "error") %> prohibited this contact from being saved:</h2>
+
+      <ul>
+      <% @contact.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<%
+	# user_id value is not taken from this form but from value current_user.id
+	# so we can use the text_field to output the user email
+	# the user can change it by updating his/her profile.
+%>
+    <%= f.hidden_field :user_id, value: "#{current_user.id}" %>
+  <div class="field">
+    <%= f.label :fullname, "Your full name" %><br>
+    <%= f.text_field :fullname, size: 66 %>
+  </div>
+  <div class="field">
+    <%= f.label :subject %><br>
+    <%= f.text_field :subject, size: 66 %>
+  </div>
+  <div class="field">
+    <%= f.label :message %><br>
+    <%= f.text_area :message, size: "50x10" %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Submit your message!" %>
+  </div>
+<% end %>
